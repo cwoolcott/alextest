@@ -1,31 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const Book = require('../models/books');
+const ShoppingList = require('../models/shoppinglist');
 
-// show all the saved books
-router.get('/books', (req, res, next) => {
-		Book
-		.find({})
-		.then(data => res.json(data))
-		.catch(next)
+router.get('/shoppinglist', (req, res, next) => {
+    ShoppingList
+        .find({}, 'item')
+        .then(data => res.json(data))
+        .catch(next)
 });
 
-// add book to saved books
-router.post('/books', (req, res, next) => {
-    if (req.body) {
-        Book
+router.post('/shoppinglist', (req, res, next) => {
+    if (req.body.item) {
+        ShoppingList
             .create(req.body)
             .then(data => res.json(data))
             .catch(next);
     }
     else {
-        res.json({ error: "The field is empty" })
+        res.json({ error: "The item field is empty" })
     }
 });
 
-// delete a book from saved books1
-router.delete('/books/:id', (req, res, next) => {
-    Book.findOneAndDelete({ "_id": req.params.id })
+router.delete('/shoppinglist/:id', (req, res, next) => {
+    ShoppingList.findOneAndDelete({ "_id": req.params.id })
         .then(data => res.json(data))
         .catch(next)
 })

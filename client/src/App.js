@@ -1,11 +1,12 @@
 import React from 'react';
+
+import Item from './components/Item';
 import './App.css';
-import BookContainer from './components/BookContainer';
 
 const App = () => {
   return (
     <div className="App">
-      <BookContainer/>
+      <Item />
     </div>
   );
 }
