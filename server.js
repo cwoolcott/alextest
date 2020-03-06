@@ -7,20 +7,18 @@ const path = require('path');
 
 require('dotenv').config();
 
-const app = express();
+
 const port = process.env.PORT || 3001;
 
-mongoose.connect(process.env.DB,
-    { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Database connected successfully'))
-    .catch(err => console.log(err)
-    );
+const app = express();
+
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, '/client/public')));
 
 app.use(bodyParser.json());
-app.use('/api', routes);
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use((err, req, res, next) => {
     console.log(err);
     res.header("Access-Control-Allow-Origin", "*");
@@ -28,9 +26,14 @@ app.use((err, req, res, next) => {
     next();
 });
 
+app.use('/routes/api', routes);
 
-app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+mongoose.connect(process.env.DB,
+    { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Database connected successfully'))
+    .catch(err => console.log(err)
+    );
+
+
 
 app.listen(port, () => { console.log('Server running on port ' + port) });
