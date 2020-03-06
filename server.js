@@ -14,7 +14,7 @@ const app = express();
 
 
 app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, '/client/public')));
+app.use('/static', express.static(path.join(__dirname, 'client/build')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
